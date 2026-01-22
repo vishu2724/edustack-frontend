@@ -1,14 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
+import api from "../api"; // 👈 axios instance
 
 function Navbar() {
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
-  const [tokenState, setTokenState] = useState(localStorage.getItem("token"));
   const [dropdownOpen, setDropdownOpen] = useState(null); // "user" | "admin" | null
 
   const adminToken = localStorage.getItem("adminToken");
+  const userToken = localStorage.getItem("token");
 
   const dropdownRef = useRef(null);
 
@@ -16,58 +17,78 @@ function Navbar() {
   const [searchText, setSearchText] = useState("");
 
   // ------------------------------------------
-  // FETCH USER DETAILS
+  // FETCH USER PROFILE
   // ------------------------------------------
   async function fetchUser() {
+    if (!userToken) {
+      setUser(null);
+      return;
+    }
+
     try {
-      if (!tokenState) return;
-
-      const res = await fetch("http://localhost:3000/user/profile", {
-        headers: { token: tokenState },
-      });
-
-      const data = await res.json();
-      if (data.success) setUser(data.user);
+      const res = await api.get("/user/profile");
+      if (res.data.success) {
+        setUser(res.data.user);
+      }
     } catch (err) {
       console.log("User fetch error:", err);
+      setUser(null);
     }
   }
 
+  // ------------------------------------------
+  // LISTEN TOKEN CHANGES
+  // ------------------------------------------
   useEffect(() => {
-    const updateToken = () => setTokenState(localStorage.getItem("token"));
-    window.addEventListener("tokenChanged", updateToken);
-    return () => window.removeEventListener("tokenChanged", updateToken);
+    fetchUser();
+
+    const handler = () => fetchUser();
+    window.addEventListener("tokenChanged", handler);
+
+    return () =>
+      window.removeEventListener("tokenChanged", handler);
   }, []);
 
-  useEffect(() => {
-    if (tokenState) fetchUser();
-    else setUser(null);
-  }, [tokenState]);
-
   // ------------------------------------------
-  // OUTSIDE CLICK CLOSE DROPDOWN 🔥
+  // OUTSIDE CLICK CLOSE DROPDOWN
   // ------------------------------------------
   useEffect(() => {
     function handleClickOutside(e) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
         setDropdownOpen(null);
       }
     }
 
     document.addEventListener("mousedown", handleClickOutside);
     return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
   }, []);
 
   // ------------------------------------------
-  // LOGOUT
+  // USER LOGOUT
   // ------------------------------------------
-  function handleLogout() {
+  function handleUserLogout() {
     localStorage.removeItem("token");
     window.dispatchEvent(new Event("tokenChanged"));
-    setDropdownOpen(null);
     setUser(null);
+    setDropdownOpen(null);
     navigate("/");
+  }
+
+  // ------------------------------------------
+  // ADMIN LOGOUT
+  // ------------------------------------------
+  function handleAdminLogout() {
+    localStorage.removeItem("adminToken");
+    setDropdownOpen(null);
+    navigate("/");
+    window.location.reload();
   }
 
   // ------------------------------------------
@@ -81,18 +102,15 @@ function Navbar() {
   }
 
   return (
-    <nav className="backdrop-blur-xl bg-gray-900/80 border-b border-white/10 
-                    text-white px-6 py-4 shadow-lg sticky top-0 z-50">
+    <nav className="backdrop-blur-xl bg-gray-900/80 border-b border-white/10 text-white px-6 py-4 shadow-lg sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
 
         {/* LOGO */}
         <Link
           to="/"
-          className="text-3xl font-extrabold bg-gradient-to-r 
-                     from-blue-400 to-purple-400 bg-clip-text text-transparent"
+          className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
         >
           EduStack
-
         </Link>
 
         {/* SEARCH BAR */}
@@ -109,14 +127,18 @@ function Navbar() {
         {/* RIGHT */}
         <div className="flex items-center space-x-8">
 
-          <Link to="/" className="hover:text-blue-400">Home</Link>
+          <Link to="/" className="hover:text-blue-400">
+            Home
+          </Link>
 
           {/* ================= ADMIN ================= */}
           {adminToken && !user && (
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() =>
-                  setDropdownOpen(dropdownOpen === "admin" ? null : "admin")
+                  setDropdownOpen(
+                    dropdownOpen === "admin" ? null : "admin"
+                  )
                 }
                 className="w-11 h-11 rounded-full bg-purple-600 text-white font-bold"
               >
@@ -138,11 +160,7 @@ function Navbar() {
                   </Link>
 
                   <button
-                    onClick={() => {
-                      localStorage.removeItem("adminToken");
-                      navigate("/");
-                      window.location.reload();
-                    }}
+                    onClick={handleAdminLogout}
                     className="w-full text-left px-4 py-2 text-red-400 hover:bg-gray-700"
                   >
                     Logout
@@ -157,7 +175,9 @@ function Navbar() {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() =>
-                  setDropdownOpen(dropdownOpen === "user" ? null : "user")
+                  setDropdownOpen(
+                    dropdownOpen === "user" ? null : "user"
+                  )
                 }
                 className="w-11 h-11 rounded-full bg-blue-600 text-white font-bold"
               >
@@ -187,7 +207,7 @@ function Navbar() {
                   </Link>
 
                   <button
-                    onClick={handleLogout}
+                    onClick={handleUserLogout}
                     className="w-full text-left px-4 py-2 text-red-400 hover:bg-gray-700"
                   >
                     Logout
@@ -201,7 +221,10 @@ function Navbar() {
           {!user && !adminToken && (
             <>
               <Link to="/login">Login</Link>
-              <Link to="/signup" className="bg-blue-600 px-4 py-2 rounded-lg">
+              <Link
+                to="/signup"
+                className="bg-blue-600 px-4 py-2 rounded-lg"
+              >
                 Signup
               </Link>
             </>

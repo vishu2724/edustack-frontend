@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CourseCard from "../components/CourseCard";
+import api from "../api"; // 👈 axios instance
 
 function Home() {
   const [courses, setCourses] = useState([]);
@@ -15,10 +16,8 @@ function Home() {
   // --------------------------------------------------------
   async function fetchCourses() {
     try {
-      const res = await fetch("http://localhost:3000/courses/");
-      const data = await res.json();
-
-      setCourses(data.courses || []);
+      const res = await api.get("/courses");
+      setCourses(res.data.courses || []);
       setLoading(false);
     } catch (error) {
       console.log("Error fetching courses:", error);
@@ -61,7 +60,9 @@ function Home() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex justify-center items-center">
-        <p className="text-white text-2xl animate-pulse">Loading courses...</p>
+        <p className="text-white text-2xl animate-pulse">
+          Loading courses...
+        </p>
       </div>
     );
   }
@@ -84,12 +85,13 @@ function Home() {
 
         {searchQuery && (
           <p className="text-blue-400 mt-3 text-lg">
-            Showing results for: <span className="font-semibold">"{searchQuery}"</span>
+            Showing results for:{" "}
+            <span className="font-semibold">"{searchQuery}"</span>
           </p>
         )}
       </div>
 
-      {/* If no course found */}
+      {/* NO COURSE FOUND */}
       {filteredCourses.length === 0 ? (
         <p className="text-white text-center text-xl">
           No courses match your search.
@@ -111,4 +113,3 @@ function Home() {
 }
 
 export default Home;
-

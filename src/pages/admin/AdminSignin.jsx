@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../api"; // 👈 axios instance
 
 function AdminSignin() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: "", password: "" });
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
   const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   }
 
   async function handleSignin(e) {
@@ -15,25 +24,22 @@ function AdminSignin() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/admin/signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+      const res = await api.post("/admin/signin", {
+        ...form,
+        email: form.email.toLowerCase(),
       });
 
-      const data = await res.json();
-      setLoading(false);
+      // 🔐 save admin token
+      localStorage.setItem("adminToken", res.data.token);
 
-      if (res.ok) {
-        localStorage.setItem("adminToken", data.token);
-        alert("Admin login successful!");
-        navigate("/admin/dashboard");
-      } else {
-        alert(data.message);
-      }
+      alert("Admin login successful!");
+      navigate("/admin/dashboard");
     } catch (err) {
+      alert(
+        err.response?.data?.message || "Admin login failed"
+      );
+    } finally {
       setLoading(false);
-      alert("Server error");
     }
   }
 
@@ -49,21 +55,26 @@ function AdminSignin() {
             type="email"
             name="email"
             placeholder="Admin Email"
-            className="w-full p-3 bg-gray-700 text-white rounded-lg"
+            value={form.email}
             onChange={handleChange}
+            className="w-full p-3 bg-gray-700 text-white rounded-lg"
+            required
           />
 
           <input
             type="password"
             name="password"
             placeholder="Password"
-            className="w-full p-3 bg-gray-700 text-white rounded-lg"
+            value={form.password}
             onChange={handleChange}
+            className="w-full p-3 bg-gray-700 text-white rounded-lg"
+            required
           />
 
           <button
-            className="w-full bg-blue-600 p-3 rounded-lg text-white hover:bg-blue-700"
+            type="submit"
             disabled={loading}
+            className="w-full bg-blue-600 p-3 rounded-lg text-white hover:bg-blue-700"
           >
             {loading ? "Logging In..." : "Login"}
           </button>

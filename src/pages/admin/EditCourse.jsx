@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import api from "../../api"; // 👈 axios instance
 
 function EditCourse() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const token = localStorage.getItem("adminToken");
+
+  const adminToken = localStorage.getItem("adminToken");
 
   const [form, setForm] = useState({
     title: "",
@@ -13,37 +15,55 @@ function EditCourse() {
     price: "",
   });
 
+  // -----------------------------------
+  // FETCH COURSE DETAILS
+  // -----------------------------------
   async function fetchCourse() {
-    const res = await fetch("http://localhost:3000/courses/" + id);
-    const data = await res.json();
-    setForm({
-      title: data.course.title,
-      description: data.course.description,
-      imageUrl: data.course.imageUrl,
-      price: data.course.price,
-    });
+    try {
+      const res = await api.get(`/courses/${id}`);
+      setForm({
+        title: res.data.course.title,
+        description: res.data.course.description,
+        imageUrl: res.data.course.imageUrl,
+        price: res.data.course.price,
+      });
+    } catch (err) {
+      alert("Unable to fetch course");
+    }
   }
 
+  // -----------------------------------
+  // UPDATE COURSE
+  // -----------------------------------
   async function handleUpdate(e) {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:3000/admin/course", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", token },
-      body: JSON.stringify({
-        ...form,
-        courseId: id,
-        price: Number(form.price),
-      }),
-    });
+    if (!adminToken) {
+      alert("Admin not authenticated");
+      return;
+    }
 
-    const data = await res.json();
+    try {
+      await api.put(
+        "/admin/course",
+        {
+          ...form,
+          courseId: id,
+          price: Number(form.price),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+          },
+        }
+      );
 
-    if (res.ok) {
       alert("Course updated!");
       navigate("/admin/dashboard");
-    } else {
-      alert(data.message);
+    } catch (err) {
+      alert(
+        err.response?.data?.message || "Update failed"
+      );
     }
   }
 
@@ -60,31 +80,48 @@ function EditCourse() {
           className="w-full p-3 rounded-lg bg-gray-800"
           placeholder="Course Title"
           value={form.title}
-          onChange={(e) => setForm({ ...form, title: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, title: e.target.value })
+          }
+          required
         />
 
         <textarea
           className="w-full p-3 rounded-lg bg-gray-800"
           rows={4}
+          placeholder="Course Description"
           value={form.description}
           onChange={(e) =>
             setForm({ ...form, description: e.target.value })
           }
+          required
         />
 
         <input
           className="w-full p-3 rounded-lg bg-gray-800"
+          placeholder="Image URL"
           value={form.imageUrl}
-          onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, imageUrl: e.target.value })
+          }
+          required
         />
 
         <input
+          type="number"
           className="w-full p-3 rounded-lg bg-gray-800"
+          placeholder="Price"
           value={form.price}
-          onChange={(e) => setForm({ ...form, price: e.target.value })}
+          onChange={(e) =>
+            setForm({ ...form, price: e.target.value })
+          }
+          required
         />
 
-        <button className="bg-blue-600 px-6 py-3 rounded-lg">
+        <button
+          type="submit"
+          className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg"
+        >
           Update Course
         </button>
       </form>
