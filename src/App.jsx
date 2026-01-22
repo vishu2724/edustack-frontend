@@ -13,7 +13,7 @@ import SignupSelection from "./pages/SignupSelection";
 
 
 
-import ProtectedAdminRoute from "./Components/ProtectedAdminRoute";
+
 
 // PUBLIC PAGES
 import Home from "./pages/Home";                 // Homepage - all courses listing
