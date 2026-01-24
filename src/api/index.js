@@ -7,11 +7,14 @@ const api = axios.create({
   },
 });
 
-// 🔐 attach token exactly how backend expects
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  const adminToken = localStorage.getItem("adminToken");
+  const userToken = localStorage.getItem("token");
+
+  const token = adminToken || userToken;
+
   if (token) {
-    config.headers.token = token; // ✅ IMPORTANT
+    config.headers.token = token;
   }
   return config;
 });
