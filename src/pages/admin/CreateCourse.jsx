@@ -4,7 +4,6 @@ import api from "../../api"; // axios instance
 
 function CreateCourse() {
   const navigate = useNavigate();
-  const adminToken = localStorage.getItem("adminToken");
 
   const [form, setForm] = useState({
     title: "",
@@ -16,31 +15,20 @@ function CreateCourse() {
   async function handleCreate(e) {
     e.preventDefault();
 
-    if (!adminToken) {
-      alert("Admin not authenticated");
-      return;
-    }
-
     try {
-      await api.post(
-        "/admin/course",
-        {
-          ...form,
-          price: Number(form.price),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${adminToken}`,
-          },
-        }
-      );
+      const res = await api.post("/admin/course", {
+        ...form,
+        price: Number(form.price),
+      });
 
-      alert("Course Created!");
-      navigate("/admin/dashboard");
+      if (res.data?.success) {
+        alert("Course Created!");
+        navigate("/admin/dashboard");
+      } else {
+        alert(res.data?.message || "Course not created");
+      }
     } catch (err) {
-      alert(
-        err.response?.data?.message || "Failed to create course"
-      );
+      alert(err.response?.data?.message || "Failed to create course");
     }
   }
 
