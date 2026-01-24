@@ -5,13 +5,11 @@ function SignupSelection() {
   const navigate = useNavigate();
 
   return (
-    <div
-      className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black
-                 flex flex-col items-center px-6 py-20"
-    >
+    <div className="min-h-screen bg-[#0b0f19] flex flex-col items-center px-6 py-20">
+
       {/* TITLE SECTION */}
       <div className="w-full max-w-5xl mb-20">
-        <h1 className="text-6xl font-extrabold text-white drop-shadow-lg">
+        <h1 className="text-6xl font-extrabold text-white">
           Choose Role
         </h1>
 
@@ -23,13 +21,15 @@ function SignupSelection() {
       {/* CARDS SECTION */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-14 w-full max-w-5xl">
 
-        {/* USER CARD */}
+        {/* USER SIGNUP CARD */}
         <div
           onClick={() => navigate("/user/signup")}
-          className="group cursor-pointer p-10 rounded-3xl backdrop-blur-xl 
-                     border border-white/10 bg-white/5 shadow-xl
-                     hover:shadow-blue-500/30 hover:border-blue-400/40
-                     transition-all hover:-translate-y-2"
+          className="
+            group cursor-pointer p-10 rounded-3xl
+            bg-[#111827] border border-white/10
+            transition-all hover:-translate-y-2
+            hover:border-blue-500/40 hover:shadow-[0_0_40px_6px_rgba(59,130,246,0.25)]
+          "
         >
           <div className="flex justify-center mb-6">
             <UserIcon className="h-20 w-20 text-blue-400 group-hover:scale-110 transition" />
@@ -44,13 +44,15 @@ function SignupSelection() {
           </p>
         </div>
 
-        {/* ADMIN CARD */}
+        {/* ADMIN SIGNUP CARD */}
         <div
           onClick={() => navigate("/admin/signup")}
-          className="group cursor-pointer p-10 rounded-3xl backdrop-blur-xl 
-                     border border-white/10 bg-white/5 shadow-xl
-                     hover:shadow-purple-500/30 hover:border-purple-400/40
-                     transition-all hover:-translate-y-2"
+          className="
+            group cursor-pointer p-10 rounded-3xl
+            bg-[#111827] border border-white/10
+            transition-all hover:-translate-y-2
+            hover:border-purple-500/40 hover:shadow-[0_0_40px_6px_rgba(168,85,247,0.25)]
+          "
         >
           <div className="flex justify-center mb-6">
             <ShieldCheckIcon className="h-20 w-20 text-purple-400 group-hover:scale-110 transition" />

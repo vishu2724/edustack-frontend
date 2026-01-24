@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import CourseCard from "../components/CourseCard";
-import api from "../api"; // 👈 axios instance
+import api from "../api";
 
 function Home() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔍 Search query (Navbar se update hota hai)
   const [searchQuery, setSearchQuery] = useState(
     localStorage.getItem("searchQuery") || ""
   );
 
   // --------------------------------------------------------
-  // FETCH COURSES FROM BACKEND
+  // FETCH COURSES
   // --------------------------------------------------------
   async function fetchCourses() {
     try {
@@ -25,13 +24,12 @@ function Home() {
     }
   }
 
-  // Load courses on mount
   useEffect(() => {
     fetchCourses();
   }, []);
 
   // --------------------------------------------------------
-  // LISTEN FOR SEARCH UPDATES FROM NAVBAR
+  // LISTEN SEARCH UPDATES
   // --------------------------------------------------------
   useEffect(() => {
     const handler = () => {
@@ -44,7 +42,7 @@ function Home() {
   }, []);
 
   // --------------------------------------------------------
-  // FILTER COURSES BASED ON SEARCH TEXT
+  // FILTER
   // --------------------------------------------------------
   const filteredCourses = courses.filter((c) => {
     const query = searchQuery.toLowerCase();
@@ -55,11 +53,11 @@ function Home() {
   });
 
   // --------------------------------------------------------
-  // LOADING UI
+  // LOADING
   // --------------------------------------------------------
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex justify-center items-center">
+      <div className="min-h-screen bg-[#0b0f19] flex justify-center items-center">
         <p className="text-white text-2xl animate-pulse">
           Loading courses...
         </p>
@@ -68,14 +66,14 @@ function Home() {
   }
 
   // --------------------------------------------------------
-  // MAIN PAGE UI
+  // MAIN UI
   // --------------------------------------------------------
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black px-6 py-16">
+    <div className="min-h-screen bg-[#0b0f19] px-6 py-16">
 
-      {/* PAGE HEADER */}
+      {/* HEADER */}
       <div className="text-center mb-16">
-        <h1 className="text-6xl font-extrabold text-white drop-shadow-xl">
+        <h1 className="text-6xl font-extrabold text-white">
           Explore Courses
         </h1>
 
@@ -91,7 +89,7 @@ function Home() {
         )}
       </div>
 
-      {/* NO COURSE FOUND */}
+      {/* COURSES */}
       {filteredCourses.length === 0 ? (
         <p className="text-white text-center text-xl">
           No courses match your search.
