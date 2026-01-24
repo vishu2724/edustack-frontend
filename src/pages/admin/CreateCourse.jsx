@@ -23,7 +23,7 @@ function CreateCourse() {
 
       if (res.data?.success) {
         alert("Course Created!");
-        navigate("/admin/dashboard");
+        navigate("/admin");
       } else {
         alert(res.data?.message || "Course not created");
       }

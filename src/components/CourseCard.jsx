@@ -38,7 +38,7 @@ function CourseCard({ course }) {
           </div>
 
           {/* Content Body */}
-          <div className="p-5">
+          <div className="p-5 flex flex-col h-[230px]">
 
             {/* Title */}
             <h2 className="text-2xl font-bold text-white tracking-wide">
@@ -51,9 +51,10 @@ function CourseCard({ course }) {
             </p>
 
             {/* Price */}
-            <div className="text-blue-400 font-semibold text-xl mt-5">
-              ₹ {course.price}
-            </div>
+            <div className="text-blue-400 font-semibold text-xl mt-auto">
+  ₹ {course.price}
+</div>
+
           </div>
         </div>
 
