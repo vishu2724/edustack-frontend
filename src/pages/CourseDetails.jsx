@@ -112,9 +112,9 @@ function CourseDetails() {
               {course.title}
             </h1>
 
-            <p className="text-gray-200 mt-3 text-lg max-w-2xl">
+             <p className="text-gray-200 mt-3 text-lg max-w-2xl">
               {course.description}
-            </p>
+            </p> 
 
             <div className="text-blue-400 font-bold text-3xl mt-4">
               ₹ {course.price}
