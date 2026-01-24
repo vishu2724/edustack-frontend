@@ -100,13 +100,17 @@ function Navbar() {
 <nav className="w-full bg-black-900  text-white px-6 py-4 ">
 <div className="max-w-6xl mx-auto flex justify-between items-center">
 
-        {/* LOGO */}
-        <Link
-          to="/"
-          className="text-3xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
-        >
-          EduStack
-        </Link>
+<Link
+  to="/"
+  className="text-3xl font-extrabold text-gray-200"
+>
+  EduStack
+</Link>
+
+
+
+
+
 
        {/* SEARCH BAR */}
 <div className="hidden md:flex items-center w-80 px-4 py-2 rounded-xl bg-black-800 border border-white/10">
