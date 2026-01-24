@@ -33,59 +33,67 @@ function CreateCourse() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 p-10 text-white">
-      <h1 className="text-3xl font-bold mb-6">Create Course</h1>
+    <div className="min-h-screen bg-[#0b0f19] p-10 text-white">
 
-      <form onSubmit={handleCreate} className="space-y-4 max-w-xl">
-        <input
-          className="w-full p-3 rounded-lg bg-gray-800"
-          placeholder="Course Title"
-          value={form.title}
-          onChange={(e) =>
-            setForm({ ...form, title: e.target.value })
-          }
-          required
-        />
+      <h1 className="text-3xl font-bold mb-6">
+        Create Course
+      </h1>
 
-        <textarea
-          className="w-full p-3 rounded-lg bg-gray-800"
-          placeholder="Description"
-          rows={4}
-          value={form.description}
-          onChange={(e) =>
-            setForm({ ...form, description: e.target.value })
-          }
-          required
-        />
+      <div className="bg-[#111827] p-8 rounded-xl max-w-xl">
 
-        <input
-          className="w-full p-3 rounded-lg bg-gray-800"
-          placeholder="Image URL"
-          value={form.imageUrl}
-          onChange={(e) =>
-            setForm({ ...form, imageUrl: e.target.value })
-          }
-          required
-        />
+        <form onSubmit={handleCreate} className="space-y-4">
 
-        <input
-          type="number"
-          className="w-full p-3 rounded-lg bg-gray-800"
-          placeholder="Price"
-          value={form.price}
-          onChange={(e) =>
-            setForm({ ...form, price: e.target.value })
-          }
-          required
-        />
+          <input
+            className="w-full p-3 rounded-lg bg-[#0f172a] text-white"
+            placeholder="Course Title"
+            value={form.title}
+            onChange={(e) =>
+              setForm({ ...form, title: e.target.value })
+            }
+            required
+          />
 
-        <button
-          type="submit"
-          className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg"
-        >
-          Create Course
-        </button>
-      </form>
+          <textarea
+            rows={4}
+            className="w-full p-3 rounded-lg bg-[#0f172a] text-white"
+            placeholder="Description"
+            value={form.description}
+            onChange={(e) =>
+              setForm({ ...form, description: e.target.value })
+            }
+            required
+          />
+
+          <input
+            className="w-full p-3 rounded-lg bg-[#0f172a] text-white"
+            placeholder="Image URL"
+            value={form.imageUrl}
+            onChange={(e) =>
+              setForm({ ...form, imageUrl: e.target.value })
+            }
+            required
+          />
+
+          <input
+            type="number"
+            className="w-full p-3 rounded-lg bg-[#0f172a] text-white"
+            placeholder="Price"
+            value={form.price}
+            onChange={(e) =>
+              setForm({ ...form, price: e.target.value })
+            }
+            required
+          />
+
+          <button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold"
+          >
+            Create Course
+          </button>
+
+        </form>
+      </div>
     </div>
   );
 }

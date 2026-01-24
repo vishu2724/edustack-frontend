@@ -44,8 +44,8 @@ function AdminSignin() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 flex justify-center items-center">
-      <div className="bg-gray-800 p-8 rounded-xl w-full max-w-md shadow-xl">
+    <div className="min-h-screen bg-[#0b0f19] flex justify-center items-center px-6">
+      <div className="bg-[#111827] p-8 rounded-xl w-full max-w-md shadow-xl">
         <h1 className="text-3xl text-white font-bold text-center mb-6">
           Admin Login
         </h1>

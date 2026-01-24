@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../../api"; // 👈 axios instance
+import api from "../../api"; // axios instance
 
 function AdminDashboard() {
   const [courses, setCourses] = useState([]);
@@ -9,7 +9,7 @@ function AdminDashboard() {
   const adminToken = localStorage.getItem("adminToken");
 
   // ------------------------------------
-  // FETCH ALL COURSES CREATED BY ADMIN
+  // FETCH COURSES
   // ------------------------------------
   async function fetchCourses() {
     if (!adminToken) {
@@ -27,9 +27,7 @@ function AdminDashboard() {
 
       setCourses(res.data.courses || []);
     } catch (err) {
-      alert(
-        err.response?.data?.message || "Failed to fetch courses"
-      );
+      alert(err.response?.data?.message || "Failed to fetch courses");
     }
   }
 
@@ -51,14 +49,11 @@ function AdminDashboard() {
 
       alert("Course deleted successfully!");
 
-      // remove from UI
       setCourses((prev) =>
         prev.filter((course) => course._id !== id)
       );
     } catch (err) {
-      alert(
-        err.response?.data?.message || "Failed to delete course"
-      );
+      alert(err.response?.data?.message || "Failed to delete course");
     }
   }
 
@@ -67,28 +62,34 @@ function AdminDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 p-10 text-white">
+    <div className="min-h-screen bg-[#0b0f19] p-10 text-white">
+
+      {/* HEADER */}
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        <h1 className="text-3xl font-bold">
+          Admin Dashboard
+        </h1>
 
         <Link
           to="/admin/create"
-          className="bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-700"
+          className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg font-medium"
         >
           + Create Course
         </Link>
       </div>
 
+      {/* EMPTY STATE */}
       {courses.length === 0 ? (
-        <p className="text-gray-300">
+        <p className="text-gray-400">
           No courses created yet.
         </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
           {courses.map((c) => (
             <div
               key={c._id}
-              className="bg-gray-800 p-5 rounded-lg shadow-xl"
+              className="bg-[#111827] p-5 rounded-xl shadow-xl border border-white/5"
             >
               <img
                 src={c.imageUrl}
@@ -96,31 +97,32 @@ function AdminDashboard() {
                 className="h-48 w-full object-cover rounded-lg"
               />
 
-              <h2 className="text-xl mt-4 font-bold">
+              <h2 className="text-xl mt-4 font-bold text-white">
                 {c.title}
               </h2>
 
-              <p className="text-gray-300 mt-2">
+              <p className="text-gray-400 mt-2">
                 {c.description}
               </p>
 
               <div className="flex gap-4 mt-4">
                 <Link
                   to={`/admin/edit/${c._id}`}
-                  className="bg-yellow-500 px-4 py-2 rounded-lg hover:bg-yellow-600"
+                  className="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-lg font-medium text-black"
                 >
                   Edit
                 </Link>
 
                 <button
                   onClick={() => deleteCourse(c._id)}
-                  className="bg-red-600 px-4 py-2 rounded-lg hover:bg-red-700"
+                  className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-medium text-white"
                 >
                   Delete
                 </button>
               </div>
             </div>
           ))}
+
         </div>
       )}
     </div>

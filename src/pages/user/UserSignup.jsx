@@ -83,8 +83,8 @@ function UserSignup() {
   // UI
   // -----------------------------
   return (
-    <div className="min-h-screen bg-gray-900 px-6 py-10 flex justify-center items-center">
-      <div className="bg-gray-800 p-8 rounded-xl shadow-xl w-full max-w-md">
+    <div className="min-h-screen bg-[#0b0f19] px-6 py-10 flex justify-center items-center">
+      <div className="bg-[#111827] p-8 rounded-xl shadow-xl w-full max-w-md">
         <h1 className="text-3xl font-bold text-white mb-6 text-center">
           Create Your Account
         </h1>
