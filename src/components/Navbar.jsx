@@ -98,7 +98,7 @@ function Navbar() {
   }
 
   return (
-<nav className="w-full bg-black-900  text-white px-6 py-4 ">
+<nav className="relative z-50 w-full bg-black-900  text-white px-6 py-4 ">
 <div className="max-w-6xl mx-auto flex justify-between items-center">
 
 <Link
@@ -160,7 +160,7 @@ function Navbar() {
               </button>
 
               {dropdownOpen === "admin" && (
-                <div className="absolute right-0 mt-3 w-48 bg-gray-800 rounded-xl shadow-xl">
+                <div className="absolute right-0 mt-3 w-48 bg-gray-800 rounded-xl shadow-xl z-50">
                   <p className="px-4 py-3 text-purple-300 font-semibold">
                     Admin Panel
                   </p>
@@ -199,7 +199,7 @@ function Navbar() {
               </button>
 
               {dropdownOpen === "user" && (
-                <div className="absolute right-0 mt-3 w-48 bg-gray-800 rounded-xl shadow-xl">
+                <div className="absolute right-0 mt-3 w-48 bg-gray-800 rounded-xl shadow-xl z-50">
                   <p className="px-4 py-3 text-blue-300 font-semibold">
                     {user.firstName} {user.lastName}
                   </p>
