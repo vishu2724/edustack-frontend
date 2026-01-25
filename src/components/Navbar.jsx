@@ -10,7 +10,7 @@ function Navbar() {
   const [searchText, setSearchText] = useState("");
 
   const adminToken = localStorage.getItem("adminToken");
-  const userToken = localStorage.getItem("token");
+  // const userToken = localStorage.getItem("token");
 
   const dropdownRef = useRef(null);
 
@@ -18,6 +18,7 @@ function Navbar() {
   // FETCH USER PROFILE
   // ------------------------------------------
   async function fetchUser() {
+    const userToken = localStorage.getItem("token");
     if (!userToken) {
       setUser(null);
       return;
