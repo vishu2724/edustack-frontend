@@ -1,12 +1,48 @@
-# React + Vite
+# EduStack – Course Selling Platform (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the **frontend** of the full-stack **EduStack – Course Selling Platform** built using **React, Vite, and Tailwind CSS**.
 
-Currently, two official plugins are available:
+## 🔗 Live & Related Links
+- **Live Application:** https://edustack-frontend-seven.vercel.app/
+- **Backend Repository:** https://github.com/vishu2724/edustack-backend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
+- React (Vite)
+- Tailwind CSS
+- JavaScript
+- Axios
+- React Router DOM
 
-## Expanding the ESLint configuration
+## ✨ Features
+- Responsive UI built with Tailwind CSS
+- Role-based dashboards (Admin / User)
+- User authentication and authorization
+- Course listing, details, and purchase flow
+- API integration with backend services
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📂 Project Structure
+```text
+src/
+ ├── api/            # API calls & backend integration
+ ├── components/     # Reusable UI components
+ ├── pages/          # Application pages (routes)
+ ├── utils/          # Helper & utility functions
+ ├── App.jsx
+ ├── main.jsx
+ ├── index.css
+ └── tailwind.css
+
+🛠️ Setup Instructions
+git clone https://github.com/vishu2724/edustack-frontend
+cd edustack-frontend
+npm install
+npm run dev
+
+🔐 Authentication Flow
+JWT-based authentication handled by the backend
+Tokens securely stored and attached to API requests
+Protected routes for Admin and User dashboards
+
+⭐ If you like this project, feel free to star the repository!
+
+
