@@ -1,4 +1,5 @@
 # EduStack – Course Selling Platform (Frontend)
+A full-stack course selling platform with role-based access control (Admin/User) and secure JWT-based authentication.
 
 This repository contains the **frontend** of the full-stack **EduStack – Course Selling Platform** built using **React, Vite, and Tailwind CSS**.
 
